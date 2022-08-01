@@ -3,63 +3,49 @@
 
 using namespace std;
 
-void printValue(RBNode<int, string> *p) {
-    if (p) cout << "found value=" << p->value << endl; else cout << "not found" << endl;
-}
-
 int main() {
 
     freopen("../a.in", "r", stdin);
 
     TreeMap<int, int> mymap;
-    RBNode<int, int> *p,*p1;
+    RBNode<int, int> *p, *p1;
 
-    int n;
+    int n, t;
     cin >> n;
     for (int i = 0; i < n; ++i) {
-        int t;
         cin >> t;
         mymap.Insert(t, t);
     }
 
-    cout << mymap.Height() << endl;
+    cout << "min=" << mymap.FindMin() << endl;
+    cout << "max=" << mymap.FindMax() << endl;
 
+    cout << "height=" << mymap.Height() << endl;
     mymap.PrintTree();
 
-//    p = mymap.FindNextMin(6);
-//    cout << "i=" << 6 << " " << p->key << " " << p->value << endl;
+    cout << "i=" << 6 << " " << mymap.FindNextMin(6) << endl;
 
     for (int i = 0; i < 20; ++i) {
         p = mymap.FindNextMin(i);
         p1 = mymap.FindNextMax(i);
-        printf("i=%d, front=%d, end=%d\n",i,p->key,p1->key);
+        printf("i=%d, front=%d, end=%d\n", i, p->key, p1->key);
     }
 
-//    mymap.Insert(1, "1");
-//    p = mymap.Find(1);
-//    printValue(p);
-//    cout << "size=" << mymap.Size() << endl;
-//
-//    mymap.ClearAll();
-//
-//    p = mymap.Find(1);
-//    printValue(p);
-//    cout << "size=" << mymap.Size() << endl;
-//
-//    mymap.Remove(1);
-//    p = mymap.Find(1);
-//    printValue(p);
-//    cout << "size=" << mymap.Size() << endl;
-//
-//    mymap.Insert(2, "2");
-//    p = mymap.Find(2);
-//    printValue(p);
-//    cout << "size=" << mymap.Size() << endl;
-//
-//    mymap.Insert(3, "3");
-//    p = mymap.Find(3);
-//    printValue(p);
-//    cout << "size=" << mymap.Size() << endl;
+    mymap.Insert(1, 1);
+    cout << mymap.Find(1) << ", size=" << mymap.Size() << endl;
+
+    mymap.ClearAll();
+    cout << mymap.Find(1) << ", size=" << mymap.Size() << endl;
+
+    mymap.Insert(2, 2);
+    cout << mymap.Find(2) << ", size=" << mymap.Size() << endl;
+
+    mymap.Remove(2);
+    cout << mymap.Find(2) << ", size=" << mymap.Size() << endl;
+
+    mymap.Insert(3, 3);
+    cout << mymap.Find(3) << ", size=" << mymap.Size() << endl;
+
 
     return 0;
 }

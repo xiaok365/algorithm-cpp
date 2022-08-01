@@ -22,6 +22,24 @@ struct RBNode {
         rson = NULL;
         parent = NULL;
     }
+
+    friend ostream &operator<<(ostream &output, const RBNode &r) {
+        if (&r != NULL) {
+            output << "{key:" << r.key << ", value:" << r.value << "}";
+        } else {
+            output << "NULL";
+        }
+        return output;
+    }
+
+    friend ostream &operator<<(ostream &output, const RBNode *r) {
+        if (r != NULL) {
+            output << "{key:" << r->key << ", value:" << r->value << "}";
+        } else {
+            output << "NULL";
+        }
+        return output;
+    }
 };
 
 template<typename K, typename V>
@@ -188,12 +206,10 @@ RBNode<K, V> *TreeMap<K, V>::FindMin() {
     return FindMin(root_);
 }
 
-
 template<typename K, typename V>
 RBNode<K, V> *TreeMap<K, V>::FindMax() {
     return FindMax(root_);
 }
-
 
 template<typename K, typename V>
 RBNode<K, V> *TreeMap<K, V>::FindMin(RBNode<K, V> *p) {
@@ -205,7 +221,6 @@ RBNode<K, V> *TreeMap<K, V>::FindMin(RBNode<K, V> *p) {
     }
     return p;
 }
-
 
 template<typename K, typename V>
 RBNode<K, V> *TreeMap<K, V>::FindMax(RBNode<K, V> *p) {
@@ -543,7 +558,6 @@ template<typename K, typename V>
 void TreeMap<K, V>::PrintTree() {
     PrintTree(root_);
 }
-
 
 template<typename K, typename V>
 void TreeMap<K, V>::PrintTree(RBNode<K, V> *p) {
