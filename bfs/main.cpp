@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 
 using namespace std;
 
@@ -8,20 +7,22 @@ const int direction[4][2] = {{0,  1},
                              {0,  -1},
                              {1,  0}};
 
-const int MAXM = 100, MAXN = 100, QUEUE_LENGTH = 5;
+
+#define MAX_M 100
+#define MAX_N 100
+#define QUEUE_LENGTH 5
 
 struct Node {
     int x, y, distance;
 
-    Node() {}
+    Node() : x(0), y(0), distance(0) {}
 
     Node(int xx, int yy, int d) : x(xx), y(yy), distance(d) {}
 };
 
-int n, m, step = 0, map[MAXM][MAXN], visit[MAXM][MAXN];
-Node start, target;
+int n, m, step = 0, map[MAX_M][MAX_N], visit[MAX_M][MAX_N];
 
-void bfs() {
+void bfs(Node &start, Node &target) {
     Node queue[QUEUE_LENGTH];
     int head = 0, tail = 1;
     queue[0] = Node(start.x, start.y, 0);
@@ -57,9 +58,9 @@ void bfs() {
     }
 }
 
-void printPath() {
+void display(Node &start, Node &target) {
 
-    int x, y, d, path[MAXM][MAXN] = {0};
+    int x, y, d, path[MAX_M][MAX_N] = {0};
 
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -92,8 +93,8 @@ void printPath() {
 
 int main() {
 
-    freopen("../a.in","r",stdin);
-    freopen("../a.out","w",stdout);
+    freopen("../a.in", "r", stdin);
+    freopen("../a.out", "w", stdout);
 
     cin >> m >> n;
 
@@ -104,11 +105,12 @@ int main() {
         }
     }
 
+    Node start, target;
     cin >> start.x >> start.y >> target.x >> target.y;
 
-    bfs();
+    bfs(start, target);
 
-    if (step > 0) printPath();
+    if (step > 0) display(start, target);
 
     return 0;
 }
