@@ -1,6 +1,5 @@
 #include <iostream>
-#include "sort.h"
-
+#include "quicksort.h"
 
 int main() {
     int arr[] = {25, 4, 6, 9, 10, 3, 1, 2, 7, 8};

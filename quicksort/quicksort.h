@@ -1,5 +1,5 @@
-#ifndef P2481_SORT_H
-#define P2481_SORT_H
+#ifndef QUICKSORT_H
+#define QUICKSORT_H
 
 #include <cstdlib>
 #include <ctime>
@@ -49,4 +49,4 @@ void sort(T arr[], int start, int end) {
     sort(arr, index + 1, end);
 }
 
-#endif //P2481_SORT_H
+#endif //QUICKSORT_H
