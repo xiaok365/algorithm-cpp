@@ -5,7 +5,7 @@
 
 using namespace std;
 
-template<class T>
+template<typename T>
 class Cstack {
 public:
     explicit Cstack(int size);
