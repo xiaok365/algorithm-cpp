@@ -52,6 +52,8 @@ void unionSet(int s, int e) {
     int rootS = findFather(s);
     int rootE = findFather(e);
 
+    if (rootS == rootE) return;
+
     int weight = father[rootS] + father[rootE];
     // 将结点数少的集合作为结点数多的集合的儿子节点
     if (father[rootS] > father[rootE]) {
