@@ -2,56 +2,59 @@
 
 using namespace std;
 
-const int direction[4][2] = {{0,  1},
-                             {-1, 0},
-                             {0,  -1},
-                             {1,  0}};
 
-
-#define MAX_M 100
 #define MAX_N 100
-#define QUEUE_LENGTH 5
+#define MAX_M 100
+#define QUEUE_LENGTH 10
 
 struct Node {
-    int x, y, distance;
+    int x, y, d;
 
-    Node() : x(0), y(0), distance(0) {}
+    Node() : x(0), y(0), d(0) {}
 
-    Node(int xx, int yy, int d) : x(xx), y(yy), distance(d) {}
+    Node(int xx, int yy, int d) : x(xx), y(yy), d(d) {}
 };
 
-int n, m, step = 0, map[MAX_M][MAX_N], visit[MAX_M][MAX_N];
+const int dir_x[4] = {1, -1, 0, 0};
+const int dir_y[4] = {0, 0, 1, -1};
+
+int n, m, step = 0, map[MAX_N][MAX_M], visit[MAX_N][MAX_M];
+
+
+bool valid(int x, int y) {
+    return x >= 0 && x < m && y >= 0 && y < n && visit[x][y] == -1 && map[x][y] >= 0;
+}
 
 void bfs(Node &start, Node &target) {
     Node queue[QUEUE_LENGTH];
     int head = 0, tail = 1;
+
+    memset(visit, 0xff, sizeof visit);
     queue[0] = Node(start.x, start.y, 0);
-    visit[start.x][start.y] = 0;
+    visit[start.x][start.y] = -2;
 
     while (head != tail) {
         int x = queue[head].x;
         int y = queue[head].y;
-        int distance = queue[head].distance;
+        int d = queue[head].d;
         head = (head + 1) % QUEUE_LENGTH;
         for (int i = 0; i < 4; ++i) {
-            int dx = x + direction[i][0];
-            int dy = y + direction[i][1];
-            if (dx >= 0 && dx < m && dy >= 0 && dy < n && visit[dx][dy] == -1 && map[dx][dy] >= 0) {
+            int dx = x + dir_x[i];
+            int dy = y + dir_y[i];
+            if (valid(dx, dy)) {
                 // 表示从i方向走过来的，方便后续回溯路径
                 visit[dx][dy] = i;
-
                 if (dx == target.x && dy == target.y) {
-                    cout << "已到目标点，最短距离为" << distance + 1 << endl;
-                    step = distance + 1;
+                    printf("已到目标点，最短距离为%d\n", d + 1);
+                    step = d + 1;
                     return;
                 }
-
                 if ((tail + 1) % QUEUE_LENGTH == head) {
-                    cout << "队列满" << endl;
+                    printf("队列满\n");
                     return;
                 }
                 // 新坐标入队
-                queue[tail] = Node(dx, dy, distance + 1);
+                queue[tail] = Node(dx, dy, d + 1);
                 tail = (tail + 1) % (QUEUE_LENGTH);
             }
         }
@@ -59,35 +62,25 @@ void bfs(Node &start, Node &target) {
 }
 
 void display(Node &start, Node &target) {
+    if (step <= 0) return;
 
-    int x, y, d, path[MAX_M][MAX_N] = {0};
+    int path[MAX_N][MAX_M] = {0};
+    memset(path, 0xff, sizeof path);
 
-    for (int i = 0; i < m; ++i) {
-        for (int j = 0; j < n; ++j) {
-            path[i][j] = -1;
-        }
-    }
+    int x = target.x, y = target.y;
 
-    x = target.x;
-    y = target.y;
-    path[start.x][start.y] = 0;
-
-    while (!(x == start.x && y == start.y)) {
+    while (step >= 0) {
         path[x][y] = step--;
-        d = visit[x][y];
-        x -= direction[d][0];
-        y -= direction[d][1];
+        int d = visit[x][y];
+        x -= dir_x[d];
+        y -= dir_y[d];
     }
 
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
-            if (path[i][j] >= 0) {
-                cout << path[i][j];
-            } else {
-                cout << "-";
-            }
+            if (path[i][j] >= 0) printf("%d", path[i][j]); else printf("-");
         }
-        cout << endl;
+        printf("\n");
     }
 }
 
@@ -96,21 +89,17 @@ int main() {
     freopen("../a.in", "r", stdin);
     freopen("../a.out", "w", stdout);
 
-    cin >> m >> n;
-
-    for (int i = 0; i < m; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cin >> map[i][j];
-            visit[i][j] = -1;
+    scanf("%d %d", &n, &m);
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            scanf("%d", &map[i][j]);
         }
     }
 
     Node start, target;
-    cin >> start.x >> start.y >> target.x >> target.y;
-
+    scanf("%d %d %d %d", &start.x, &start.y, &target.x, &target.y);
     bfs(start, target);
-
-    if (step > 0) display(start, target);
+    display(start, target);
 
     return 0;
 }
