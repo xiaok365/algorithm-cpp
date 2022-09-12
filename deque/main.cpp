@@ -11,7 +11,6 @@ int main() {
     deq.PushFront(1);
     deq.PushFront(0);
     deq.PushBack(3);
-//    deq.PushBack(4);
 
     printf("head=%d tail=%d size=%d back=%d\n", deq.Head(), deq.Tail(), deq.Size(), deq.Back());
 

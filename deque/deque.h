@@ -20,11 +20,11 @@ public:
 
     T Back() { return data_[(tail_ - 1 + capacity_) % capacity_]; }
 
-    bool IsNotEmpty();
+    bool IsNotEmpty() { return head_ != tail_; };
 
-    bool IsEmpty();
+    bool IsEmpty() { return head_ == tail_; }
 
-    bool IsFull();
+    bool IsFull() { return (tail_ + 1) % capacity_ == head_; };
 
     int Size();
 
@@ -42,21 +42,6 @@ Deque<T>::Deque(int capacity) {
     capacity_ = capacity;
     head_ = tail_ = 0;
     data_ = new T[capacity_];
-}
-
-template<typename T>
-bool Deque<T>::IsNotEmpty() {
-    return head_ != tail_;
-}
-
-template<typename T>
-bool Deque<T>::IsEmpty() {
-    return head_ == tail_;
-}
-
-template<typename T>
-bool Deque<T>::IsFull() {
-    return (tail_ + 1) % capacity_ == head_;
 }
 
 template<typename T>
