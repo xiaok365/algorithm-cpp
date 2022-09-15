@@ -32,6 +32,8 @@ public:
 
     int Tail() { return tail_; }
 
+    ~Deque() { delete[]data_, data_ = NULL; }
+
 public:
     int capacity_, head_, tail_;
     T *data_;
